@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#define UNUSED(x) (void)(x)
+
 #pragma once
 
 #include <stdio.h>
@@ -50,10 +52,9 @@ class MockTrafficCop {
                           std::vector<FieldInfo> &tuple_descriptor,
                           int &rows_changed, std::string &error_message,
                           const size_t thread_id = 0) {
-    int i = 0;
-    if(query) i ++;
-    if(error_message) i ++;
-    if(thread_id) i ++;
+    UNUSED(query);
+    UNUSED(error_message);
+    UNUSED(thread_id);
 
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));
@@ -78,13 +79,13 @@ class MockTrafficCop {
       int &rows_changed, std::string &error_message,
       const size_t thread_id = 0) {
 
-    int i = 0;
-    if(statement) i ++;
-    if(params) i ++;
-    if(unnamed) i ++;
-    if(param_stats) i ++;
-    if(result_format) i ++;
-    if(error_message) i ++;
+    UNUSED(statement);
+    UNUSED(params);
+    UNUSED(unnamed);
+    UNUSED(param_stats);
+    UNUSED(result_format);
+    UNUSED(error_message);
+    UNUSED(thread_id);
 
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));

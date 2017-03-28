@@ -196,7 +196,8 @@ class PacketManager {
       statement_param_types_;
 
   // The traffic cop used for this connection
-  std::unique_ptr<tcop::TrafficCop> traffic_cop_;
+//  std::unique_ptr<tcop::TrafficCop> traffic_cop_;
+  std::unique_ptr<tcop::MockTrafficCop> traffic_cop_;
 
   //===--------------------------------------------------------------------===//
   // STATIC DATA

@@ -57,7 +57,8 @@ std::mutex PacketManager::packet_managers_mutex_;
 
 PacketManager::PacketManager()
     : txn_state_(NetworkTransactionStateType::IDLE), pkt_cntr_(0) {
-  traffic_cop_.reset(new tcop::TrafficCop());
+//  traffic_cop_.reset(new tcop::TrafficCop());
+  traffic_cop_.reset(new tcop::MockTrafficCop());
   {
     std::lock_guard<std::mutex> lock(PacketManager::packet_managers_mutex_);
     PacketManager::packet_managers_.push_back(this);

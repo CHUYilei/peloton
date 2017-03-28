@@ -774,8 +774,10 @@ public class PelotonTest {
   public void SimpleScan() throws SQLException {
     System.out.println("\nSimple Scan Test:");
     System.out.println("Query: " + SEQSCAN);
-    PreparedStatement stmt = conn.prepareStatement(SEQSCAN);
-    ResultSet r = stmt.executeQuery();
+//    PreparedStatement stmt = conn.prepareStatement(SEQSCAN);
+//    ResultSet r = stmt.executeQuery();
+    Statement stmt = conn.createStatement();
+    ResultSet r = stmt.executeQuery(SEQSCAN);
     while (r.next()) {
       System.out.println("SeqScan: id = " + r.getString(1) + ", " + r.getString(2));
     }

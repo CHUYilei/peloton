@@ -50,9 +50,10 @@ class MockTrafficCop {
                           std::vector<FieldInfo> &tuple_descriptor,
                           int &rows_changed, std::string &error_message,
                           const size_t thread_id = 0) {
-    query;
-    error_message;
-    thread_id;
+    int i = 0;
+    if(query) i ++;
+    if(error_message) i ++;
+    if(thread_id) i ++;
 
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));
@@ -76,12 +77,14 @@ class MockTrafficCop {
       const std::vector<int> &result_format, std::vector<StatementResult> &result,
       int &rows_changed, std::string &error_message,
       const size_t thread_id = 0) {
-    statement;
-    params;
-    unnamed;
-    param_stats;
-    result_format;
-    error_message;
+
+    int i = 0;
+    if(statement) i ++;
+    if(params) i ++;
+    if(unnamed) i ++;
+    if(param_stats) i ++;
+    if(result_format) i ++;
+    if(error_message) i ++;
 
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));

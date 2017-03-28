@@ -448,7 +448,7 @@ void PacketManager::ExecParseMessage(InputPacket *pkt) {
 }
 
 void PacketManager::ExecBindMessage(InputPacket *pkt) {
-  LOG_TRACE("Exececute Bind");
+  LOG_INFO("Exececute Bind");
   std::string portal_name, statement_name;
   // BIND message
   GetStringToken(pkt, portal_name);

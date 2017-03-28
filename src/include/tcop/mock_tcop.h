@@ -35,7 +35,7 @@ namespace tcop {
 //===--------------------------------------------------------------------===//
 
 class MockTrafficCop {
-  MockTrafficCop(TrafficCop const &) = delete;
+  MockTrafficCop(MockTrafficCop const &) = delete;
 
  public:
   MockTrafficCop();
@@ -50,6 +50,10 @@ class MockTrafficCop {
                           std::vector<FieldInfo> &tuple_descriptor,
                           int &rows_changed, std::string &error_message,
                           const size_t thread_id = 0) {
+    query;
+    error_message;
+    thread_id;
+
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '2')));
@@ -72,6 +76,13 @@ class MockTrafficCop {
       const std::vector<int> &result_format, std::vector<StatementResult> &result,
       int &rows_changed, std::string &error_message,
       const size_t thread_id = 0) {
+    statement;
+    params;
+    unnamed;
+    param_stats;
+    result_format;
+    error_message;
+
     result.clear();
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '1')));
     result.push_back(std::make_pair(std::vector<unsigned char>(), std::vector<unsigned char>('r', '2')));

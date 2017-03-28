@@ -22,7 +22,7 @@
 #include "common/cache.h"
 #include "common/portal.h"
 #include "common/statement.h"
-#include "tcop/tcop.h"
+#include "tcop/mock_tcop.h"
 #include "wire/marshal.h"
 
 // Packet content macros

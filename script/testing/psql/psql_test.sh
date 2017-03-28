@@ -12,13 +12,15 @@ TEMP_OUT_FILE="/tmp/psql_out-$$"
 
 PELOTON_DIR="$CODE_SOURCE_DIR/../../.."
 PELOTON_PID=""
-PELOTON_PORT="57721"
+#PELOTON_PORT="57721"
+PELOTON_PORT="54321"
 PELOTON_HOST="localhost"
 PELOTON_USER="postgres"
 PELOTON_PASS="postgres"
 PELOTON_ARGS='sslmode=disable'
 
-TEST_SCRIPT="../script/testing/dml/basic1.sql"
+#TEST_SCRIPT="../script/testing/dml/basic1.sql"
+TEST_SCRIPT="../script/testing/dml/simple.sql"
 
 ## ---------------------------------------------
 ## Exit Handler

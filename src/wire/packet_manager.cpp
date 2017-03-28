@@ -297,6 +297,7 @@ bool PacketManager::HardcodedExecuteFilter(std::string query_type) {
 
 // The Simple Query Protocol
 void PacketManager::ExecQueryMessage(InputPacket *pkt, const size_t thread_id) {
+  LOG_TRACE("Execute Simple Query");
   std::string q_str;
   PacketGetString(pkt, pkt->len, q_str);
 
@@ -362,6 +363,8 @@ void PacketManager::ExecQueryMessage(InputPacket *pkt, const size_t thread_id) {
  * exec_parse_message - handle PARSE message
  */
 void PacketManager::ExecParseMessage(InputPacket *pkt) {
+  LOG_TRACE("Execute Parse");
+
   std::string error_message, statement_name, query_string, query_type;
   GetStringToken(pkt, statement_name);
 
@@ -445,6 +448,7 @@ void PacketManager::ExecParseMessage(InputPacket *pkt) {
 }
 
 void PacketManager::ExecBindMessage(InputPacket *pkt) {
+  LOG_INFO("Exececute Bind");
   std::string portal_name, statement_name;
   // BIND message
   GetStringToken(pkt, portal_name);
@@ -728,6 +732,7 @@ size_t PacketManager::ReadParamValue(
 }
 
 bool PacketManager::ExecDescribeMessage(InputPacket *pkt) {
+  LOG_TRACE("Execute Describe");
   if (skipped_stmt_) {
     // send 'no-data' message
     std::unique_ptr<OutputPacket> response(new OutputPacket());
@@ -772,6 +777,7 @@ bool PacketManager::ExecDescribeMessage(InputPacket *pkt) {
 }
 
 void PacketManager::ExecExecuteMessage(InputPacket *pkt, const size_t thread_id) {
+  LOG_TRACE("Execute Execute");
   // EXECUTE message
   std::vector<StatementResult> results;
   std::string error_message, portal_name;

@@ -40,11 +40,17 @@ class MockTrafficCop {
   MockTrafficCop(MockTrafficCop const &) = delete;
 
  public:
-  MockTrafficCop();
-  ~MockTrafficCop();
+  MockTrafficCop() {
+    return;
+  }
+  ~MockTrafficCop() {
+    return;
+  }
 
   // reset this object
-  void Reset();
+  void Reset() {
+    return;
+  }
 
   // PortalExec - Execute query string
   ResultType ExecuteStatement(const std::string &query,

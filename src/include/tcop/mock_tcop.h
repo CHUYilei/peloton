@@ -31,6 +31,30 @@
 #include "type/type.h"
 #include "type/types.h"
 
+#include "catalog/catalog.h"
+#include "common/abstract_tuple.h"
+#include "common/logger.h"
+#include "common/macros.h"
+#include "common/portal.h"
+#include "type/type.h"
+#include "type/types.h"
+
+#include "configuration/configuration.h"
+
+#include "expression/aggregate_expression.h"
+#include "expression/expression_util.h"
+#include "optimizer/simple_optimizer.h"
+#include "parser/parser.h"
+#include "parser/select_statement.h"
+
+#include "catalog/catalog.h"
+#include "executor/plan_executor.h"
+#include "optimizer/simple_optimizer.h"
+
+#include "planner/plan_util.h"
+
+#include <boost/algorithm/string.hpp>
+
 namespace peloton {
 
 namespace tcop {

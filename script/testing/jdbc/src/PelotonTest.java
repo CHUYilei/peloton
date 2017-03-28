@@ -766,11 +766,30 @@ public class PelotonTest {
     }
   }
 
+  public void SimpleInit() throws SQLException {
+    System.out.println("\nSimple Init");
+    conn.setAutoCommit(true);
+  }
+  
+  public void SimpleScan() throws SQLException {
+    System.out.println("\nSimple Scan Test:");
+    System.out.println("Query: " + SEQSCAN);
+    PreparedStatement stmt = conn.prepareStatement(SEQSCAN);
+    ResultSet r = stmt.executeQuery();
+    while (r.next()) {
+      System.out.println("SeqScan: id = " + r.getString(1) + ", " + r.getString(2));
+    }
+    r.close();
+  }
+
   static public void main(String[] args) throws Exception {
       if (args.length < 1) {
         System.err.println("Please specify jdbc test target: [basic|stats|copy]");
       }
-      if (args[0].equals("basic")) {
+      
+      if (args[0].equals("simple")) {	// only 1 select query
+    	  	SimpleTest();
+      } else if (args[0].equals("basic")) {
         BasicTest();
       } else if (args[0].equals("stats")) {
         StatsTest();
@@ -781,6 +800,14 @@ public class PelotonTest {
         	CopyTest(args[1]);
         }
       }
+  }
+  
+  static public void SimpleTest() throws Exception {
+    System.out.println("Simple Test");
+    PelotonTest pt = new PelotonTest();
+    pt.SimpleInit();
+    pt.SimpleScan();
+    pt.Close();
   }
 
   static public void BasicTest() throws Exception {

@@ -151,6 +151,8 @@ class MockTrafficCop {
       parser::SQLStatement *select_stmt) {
     std::vector<FieldInfo> tuple_descriptor;
 
+    UNUSED(select_stmt);
+
     tuple_descriptor.push_back(std::tuple<std::string, oid_t, size_t>("col1", 1, 2));
     tuple_descriptor.push_back(std::tuple<std::string, oid_t, size_t>("col2", 2, 2));
     tuple_descriptor.push_back(std::tuple<std::string, oid_t, size_t>("col3", 3, 2));

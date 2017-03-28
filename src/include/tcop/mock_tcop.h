@@ -102,6 +102,9 @@ class MockTrafficCop {
   std::shared_ptr<Statement> PrepareStatement(const std::string &statement_name,
                                               const std::string &query_string,
                                               std::string &error_message) {
+    UNUSED(statement_name);
+    UNUSED(query_string);
+    UNUSED(error_message);
     // TODO: change more for the PARSE the prepared statement statement
     return std::shared_ptr<Statement>(nullptr);
   }

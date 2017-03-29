@@ -36,7 +36,7 @@ static void* LaunchServer(void *) {
     try {
         // Setup
         peloton::PelotonInit::Initialize();
-
+        LOG_INFO("Server initialized");
         // Launch server
         peloton::wire::LibeventServer libeventserver;
 

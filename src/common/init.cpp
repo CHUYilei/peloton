@@ -31,11 +31,14 @@ namespace peloton {
 ThreadPool thread_pool;
 
 void PelotonInit::Initialize() {
+  LOG_INFO("Server initialization 0");
   CONNECTION_THREAD_COUNT = std::thread::hardware_concurrency();
   LOGGING_THREAD_COUNT = 1;
   GC_THREAD_COUNT = 1;
   EPOCH_THREAD_COUNT = 1;
   MAX_CONCURRENCY = 10;
+
+  LOG_INFO("Server initialization 1");
 
   // set max thread number.
   thread_pool.Initialize(0, std::thread::hardware_concurrency() + 3);
@@ -43,13 +46,13 @@ void PelotonInit::Initialize() {
   int parallelism = (std::thread::hardware_concurrency() + 3) / 4;
   storage::DataTable::SetActiveTileGroupCount(parallelism);
   storage::DataTable::SetActiveIndirectionArrayCount(parallelism);
-
+  LOG_INFO("Server initialization 2");
   // start epoch.
   concurrency::EpochManagerFactory::GetInstance().StartEpoch();
-
+  LOG_INFO("Server initialization 3");
   // start GC.
   gc::GCManagerFactory::GetInstance().StartGC();
-
+  LOG_INFO("Server initialization 4");
   // start index tuner
   if (FLAGS_index_tuner == true) {
     // Set the default visibility flag for all indexes to false
@@ -57,13 +60,13 @@ void PelotonInit::Initialize() {
     auto& index_tuner = brain::IndexTuner::GetInstance();
     index_tuner.Start();
   }
-
+  LOG_INFO("Server initialization 5");
   // start layout tuner
   if (FLAGS_layout_tuner == true) {
     auto& layout_tuner = brain::LayoutTuner::GetInstance();
     layout_tuner.Start();
   }
-
+  LOG_INFO("Server initialization 6");
   // initialize the catalog and add the default database, so we don't do this on
   // the first query
   catalog::Catalog::GetInstance()->CreateDatabase(DEFAULT_DB_NAME, nullptr);

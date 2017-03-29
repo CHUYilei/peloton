@@ -51,17 +51,17 @@ static void* LaunchServer(void *) {
 
 static void* LaunchClient(void *) {
     LOG_INFO("Will launch client!");
-//  try {
-//      pqxx::connection C;
-//      std::cout << "Connected to " << C.dbname() << std::endl;
-//      pqxx::work W(C);
-//
-//      pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
-//
-//      LOG_INFO("Found %lu employees",R.size());
-//      W.commit();
-//  } catch (const std::exception &e) {
-//  }
+    try {
+        pqxx::connection C;
+        std::cout << "Connected to " << C.dbname() << std::endl;
+        pqxx::work W(C);
+
+        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
+
+        LOG_INFO("Found %lu employees",R.size());
+        W.commit();
+    } catch (const std::exception &e) {
+    }
 
     LOG_INFO("Client is launched!");
     return NULL;

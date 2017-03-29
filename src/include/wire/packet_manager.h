@@ -22,7 +22,8 @@
 #include "common/cache.h"
 #include "common/portal.h"
 #include "common/statement.h"
-#include "tcop/mock_tcop.h"
+#include "tcop/tcop.h"
+//#include "tcop/mock_tcop.h"
 #include "wire/marshal.h"
 
 // Packet content macros
@@ -196,8 +197,8 @@ class PacketManager {
       statement_param_types_;
 
   // The traffic cop used for this connection
-//  std::unique_ptr<tcop::TrafficCop> traffic_cop_;
-  std::unique_ptr<tcop::MockTrafficCop> traffic_cop_;
+  std::unique_ptr<tcop::TrafficCop> traffic_cop_;
+//  std::unique_ptr<tcop::MockTrafficCop> traffic_cop_;
 
   //===--------------------------------------------------------------------===//
   // STATIC DATA

@@ -23,8 +23,8 @@
 #include "planner/delete_plan.h"
 #include "planner/insert_plan.h"
 #include "planner/update_plan.h"
-//#include "tcop/tcop.h"
-#include "tcop/mock_tcop.h"
+#include "tcop/tcop.h"
+//#include "tcop/mock_tcop.h"
 #include "type/types.h"
 #include "type/value.h"
 #include "type/value_factory.h"
@@ -58,8 +58,8 @@ std::mutex PacketManager::packet_managers_mutex_;
 
 PacketManager::PacketManager()
     : txn_state_(NetworkTransactionStateType::IDLE), pkt_cntr_(0) {
-//  traffic_cop_.reset(new tcop::TrafficCop());
-  traffic_cop_.reset(new tcop::MockTrafficCop());
+  traffic_cop_.reset(new tcop::TrafficCop());
+//  traffic_cop_.reset(new tcop::MockTrafficCop());
   {
     std::lock_guard<std::mutex> lock(PacketManager::packet_managers_mutex_);
     PacketManager::packet_managers_.push_back(this);

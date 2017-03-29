@@ -81,7 +81,7 @@ TEST_F(PacketManagerTests, WireInitTest) {
         exit(-1);
     }
 
-    pthread_exit(NULL);
+    pthread_join(threads[0], NULL);
 }
 
 }  // End test namespace

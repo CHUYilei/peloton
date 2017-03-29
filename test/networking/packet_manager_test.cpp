@@ -49,23 +49,23 @@ static void* LaunchServer(void *) {
     return NULL;
 }
 
-static void* LaunchClient(void *) {
-    LOG_INFO("Will launch client!");
-//    try {
-//        pqxx::connection C;
-//        std::cout << "Connected to " << C.dbname() << std::endl;
-//        pqxx::work W(C);
+//static void* LaunchClient(void *) {
+//    LOG_INFO("Will launch client!");
+////    try {
+////        pqxx::connection C;
+////        std::cout << "Connected to " << C.dbname() << std::endl;
+////        pqxx::work W(C);
+////
+////        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
+////
+////        LOG_INFO("Found %lu employees",R.size());
+////        W.commit();
+////    } catch (const std::exception &e) {
+////    }
 //
-//        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
-//
-//        LOG_INFO("Found %lu employees",R.size());
-//        W.commit();
-//    } catch (const std::exception &e) {
-//    }
-
-    LOG_INFO("Client is launched!");
-    return NULL;
-}
+//    LOG_INFO("Client is launched!");
+//    return NULL;
+//}
 
 TEST_F(PacketManagerTests, WireInitTest) {
 //    pthread_t threads[NUM_THREADS];

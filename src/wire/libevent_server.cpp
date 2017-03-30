@@ -75,6 +75,10 @@ LibeventServer::LibeventServer() {
   evstop = evsignal_new(base, SIGHUP, Signal_Callback, base);
   evsignal_add(evstop, NULL);
 
+  event* evtimeout = event_new(base, -1, EV_TIMEOUT, Signal_Callback, base);
+  timeval tenSec = {10, 0};
+  event_add(evtimeout, &tenSec);
+
   // a master thread is responsible for coordinating worker threads.
   std::shared_ptr<LibeventThread> master_thread(
       new LibeventMasterThread(CONNECTION_THREAD_COUNT, base));

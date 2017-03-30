@@ -30,62 +30,61 @@ namespace test {
 class PacketManagerTests: public PelotonTest {
 };
 
-//static void* LaunchServer(void *) {
-//    // Launch peloton server
-//    LOG_INFO("Will launch server!");
-//    try {
-//        // Setup
-//        peloton::PelotonInit::Initialize();
-//        LOG_INFO("Server initialized");
-//        // Launch server
-//        peloton::wire::LibeventServer libeventserver;
-//
-//        // Teardown
-//        peloton::PelotonInit::Shutdown();
-//    } catch (peloton::ConnectionException exception) {
-//        // Nothing to do here!
-//    }
-//    LOG_INFO("Libevent server is launched!");
-//    return NULL;
-//}
+static void* LaunchServer(void *) {
+    // Launch peloton server
+    LOG_INFO("Will launch server!\n");
+    try {
+        // Setup
+        peloton::PelotonInit::Initialize();
+        LOG_INFO("Server initialized\n");
+        // Launch server
+        peloton::wire::LibeventServer libeventserver;
+        LOG_INFO("Server Closed\n");
+        // Teardown
+        peloton::PelotonInit::Shutdown();
+        LOG_INFO("Peloton has shut down\n");
+    } catch (peloton::ConnectionException exception) {
+        // Nothing to do here!
+    }
+    //LOG_INFO("Libevent server is launched!\n");
+    return NULL;
+}
 
 static void* LaunchClient(void *) {
-    LOG_INFO("Will launch client!");
+    LOG_INFO("Will launch client!\n");
     try {
         pqxx::connection C;
-        std::cout << "Connected to " << C.dbname() << std::endl;
+        LOG_INFO("Connected to %s\n",C.dbname());
         pqxx::work W(C);
 
         pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
 
-        LOG_INFO("Found %lu employees",R.size());
+        LOG_INFO("Found %lu employees\n",R.size());
         W.commit();
     } catch (const std::exception &e) {
+        LOG_INFO("Exception occurred\n");
     }
 
-    LOG_INFO("Client is launched!");
+    LOG_INFO("Client has closed\n");
     return NULL;
 }
 
 TEST_F(PacketManagerTests, WireInitTest) {
-//    pthread_t threads[NUM_THREADS];
-//    int rc = pthread_create(&threads[0], NULL, LaunchServer, NULL);
-//    if (rc) {
-//        LOG_INFO("Error:unable to create server thread");
-//        exit(-1);
-//    }
-//
-//    rc = pthread_create(&threads[1], NULL, LaunchClient, NULL);
-//    if (rc) {
-//        LOG_INFO("Error:unable to create client thread");
-//        exit(-1);
-//    }
-//
-//    pthread_join(threads[0], NULL);
-//    std::thread server_td(LaunchServer, this);
-//    server_td.join();
+    pthread_t threads[NUM_THREADS];
+    int rc = pthread_create(&threads[0], NULL, LaunchServer, NULL);
+    if (rc) {
+        LOG_INFO("Error:unable to create server thread");
+        exit(-1);
+    }
+    sleep(5);
+    //rc = pthread_create(&threads[1], NULL, LaunchClient, NULL);
+    //if (rc) {
+    //    LOG_INFO("Error:unable to create client thread");
+    //    exit(-1);
+    //}
 
-	LaunchClient(NULL);
+    LaunchClient(NULL);
+    pthread_join(threads[0], NULL);
 }
 
 }  // End test namespace

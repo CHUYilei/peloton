@@ -14,7 +14,7 @@
 #include "gtest/gtest.h"
 #include "common/logger.h"
 #include "wire/libevent_server.h"
-//#include <pqxx/pqxx>
+#include <pqxx/pqxx>
 //#include "../third_party/libpg_query/src/postgres/include/libpq/libpq.h"
 //#include <pthread.h>
 
@@ -30,42 +30,42 @@ namespace test {
 class PacketManagerTests: public PelotonTest {
 };
 
-static void* LaunchServer(void *) {
-    // Launch peloton server
-    LOG_INFO("Will launch server!");
-    try {
-        // Setup
-        peloton::PelotonInit::Initialize();
-        LOG_INFO("Server initialized");
-        // Launch server
-        peloton::wire::LibeventServer libeventserver;
-
-        // Teardown
-        peloton::PelotonInit::Shutdown();
-    } catch (peloton::ConnectionException exception) {
-        // Nothing to do here!
-    }
-    LOG_INFO("Libevent server is launched!");
-    return NULL;
-}
-
-//static void* LaunchClient(void *) {
-//    LOG_INFO("Will launch client!");
-////    try {
-////        pqxx::connection C;
-////        std::cout << "Connected to " << C.dbname() << std::endl;
-////        pqxx::work W(C);
-////
-////        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
-////
-////        LOG_INFO("Found %lu employees",R.size());
-////        W.commit();
-////    } catch (const std::exception &e) {
-////    }
+//static void* LaunchServer(void *) {
+//    // Launch peloton server
+//    LOG_INFO("Will launch server!");
+//    try {
+//        // Setup
+//        peloton::PelotonInit::Initialize();
+//        LOG_INFO("Server initialized");
+//        // Launch server
+//        peloton::wire::LibeventServer libeventserver;
 //
-//    LOG_INFO("Client is launched!");
+//        // Teardown
+//        peloton::PelotonInit::Shutdown();
+//    } catch (peloton::ConnectionException exception) {
+//        // Nothing to do here!
+//    }
+//    LOG_INFO("Libevent server is launched!");
 //    return NULL;
 //}
+
+static void* LaunchClient(void *) {
+    LOG_INFO("Will launch client!");
+    try {
+        pqxx::connection C;
+        std::cout << "Connected to " << C.dbname() << std::endl;
+        pqxx::work W(C);
+
+        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
+
+        LOG_INFO("Found %lu employees",R.size());
+        W.commit();
+    } catch (const std::exception &e) {
+    }
+
+    LOG_INFO("Client is launched!");
+    return NULL;
+}
 
 TEST_F(PacketManagerTests, WireInitTest) {
 //    pthread_t threads[NUM_THREADS];
@@ -82,9 +82,10 @@ TEST_F(PacketManagerTests, WireInitTest) {
 //    }
 //
 //    pthread_join(threads[0], NULL);
-    std::thread server_td(LaunchServer, this);
-    server_td.join();
+//    std::thread server_td(LaunchServer, this);
+//    server_td.join();
 
+	LaunchClient(NULL);
 }
 
 }  // End test namespace

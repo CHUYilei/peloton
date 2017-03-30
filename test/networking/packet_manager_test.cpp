@@ -31,60 +31,69 @@ class PacketManagerTests: public PelotonTest {
 };
 
 static void* LaunchServer(void *) {
-    // Launch peloton server
-    LOG_INFO("Will launch server!\n");
-    try {
-        // Setup
-        peloton::PelotonInit::Initialize();
-        LOG_INFO("Server initialized\n");
-        // Launch server
-        peloton::wire::LibeventServer libeventserver;
-        LOG_INFO("Server Closed\n");
-        // Teardown
-        peloton::PelotonInit::Shutdown();
-        LOG_INFO("Peloton has shut down\n");
-    } catch (peloton::ConnectionException exception) {
-        // Nothing to do here!
-    }
-    //LOG_INFO("Libevent server is launched!\n");
-    return NULL;
+	// Launch peloton server
+	LOG_INFO("Will launch server!\n");
+	try {
+		// Setup
+		peloton::PelotonInit::Initialize();
+		LOG_INFO("Server initialized\n");
+		// Launch server
+		peloton::wire::LibeventServer libeventserver;
+		LOG_INFO("Server Closed\n");
+		// Teardown
+		peloton::PelotonInit::Shutdown();
+		LOG_INFO("Peloton has shut down\n");
+	} catch (peloton::ConnectionException exception) {
+		// Nothing to do here!
+	}
+	//LOG_INFO("Libevent server is launched!\n");
+	return NULL;
 }
 
 static void* LaunchClient(void *) {
-    LOG_INFO("Will launch client!\n");
-    try {
-        pqxx::connection C;
-        LOG_INFO("Connected to %s\n",C.dbname());
-        pqxx::work W(C);
+	LOG_INFO("Will launch client!\n");
+	try {
+		pqxx::connection C;
+		LOG_INFO("Connected to %s\n", C.dbname());
+		pqxx::work W(C);
 
-        pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
+		// create table and insert some data
+		W.exec("DROP TABLE IF EXISTS employee;");
+		W.exec("CREATE TABLE employee(id INT, name VARCHAR(100));");
+		W.exec("INSERT INTO employee VALUES (1, 'Han LI');");
+		W.exec("INSERT INTO employee VALUES (2, 'Shaokun ZOU');");
+		W.exec("INSERT INTO employee VALUES (3, 'Yilei CHU');");
 
-        LOG_INFO("Found %lu employees\n",R.size());
-        W.commit();
-    } catch (const std::exception &e) {
-        LOG_INFO("Exception occurred\n");
-    }
+		LOG_INFO("Test data inserted.\n");
 
-    LOG_INFO("Client has closed\n");
-    return NULL;
+		pqxx::result R = W.exec("SELECT name FROM employee where id=1;");
+
+		LOG_INFO("Found %lu employees\n", R.size());
+		W.commit();
+	} catch (const std::exception &e) {
+		LOG_INFO("Exception occurred\n");
+	}
+
+	LOG_INFO("Client has closed\n");
+	return NULL;
 }
 
 TEST_F(PacketManagerTests, WireInitTest) {
-    pthread_t threads[NUM_THREADS];
-    int rc = pthread_create(&threads[0], NULL, LaunchServer, NULL);
-    if (rc) {
-        LOG_INFO("Error:unable to create server thread");
-        exit(-1);
-    }
-    sleep(5);
-    //rc = pthread_create(&threads[1], NULL, LaunchClient, NULL);
-    //if (rc) {
-    //    LOG_INFO("Error:unable to create client thread");
-    //    exit(-1);
-    //}
+	pthread_t threads[NUM_THREADS];
+	int rc = pthread_create(&threads[0], NULL, LaunchServer, NULL);
+	if (rc) {
+		LOG_INFO("Error:unable to create server thread");
+		exit(-1);
+	}
+	sleep(5);
+	//rc = pthread_create(&threads[1], NULL, LaunchClient, NULL);
+	//if (rc) {
+	//    LOG_INFO("Error:unable to create client thread");
+	//    exit(-1);
+	//}
 
-    LaunchClient(NULL);
-    pthread_join(threads[0], NULL);
+	LaunchClient(NULL);
+	pthread_join(threads[0], NULL);
 }
 
 }  // End test namespace
